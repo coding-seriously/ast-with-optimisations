@@ -1,0 +1,8 @@
+/home/sqln/Documents/cfg visualiser/build/CMakeFiles/intrinsics_gen.dir
+/home/sqln/Documents/cfg visualiser/build/CMakeFiles/omp_gen.dir
+/home/sqln/Documents/cfg visualiser/build/CMakeFiles/acc_gen.dir
+/home/sqln/Documents/cfg visualiser/build/CMakeFiles/RISCVTargetParserTableGen.dir
+/home/sqln/Documents/cfg visualiser/build/CMakeFiles/clang-tablegen-targets.dir
+/home/sqln/Documents/cfg visualiser/build/CMakeFiles/ast-tool.dir
+/home/sqln/Documents/cfg visualiser/build/CMakeFiles/edit_cache.dir
+/home/sqln/Documents/cfg visualiser/build/CMakeFiles/rebuild_cache.dir

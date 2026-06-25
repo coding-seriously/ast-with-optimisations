@@ -1,0 +1,260 @@
+digraph ProgramCFG {
+  node [shape=box, fontname="Courier"];
+  subgraph cluster_gcd {
+    label = "gcd()";
+    style=filled; color=lightgrey;
+    gcd_Node0 [label="Block 0\nIN: { d1 d2 }\n----------------\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    gcd_Node1 [label="Block 1\nIN: { d1 d2 }\n----------------\ngcd(b % a, a)\nreturn gcd(b % a, a);\n\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    gcd_Node1 -> gcd_Node0;
+    gcd_Node2 [label="Block 2\nIN: { d1 d2 }\n----------------\nb\nreturn b;\n\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    gcd_Node2 -> gcd_Node0;
+    gcd_Node3 [label="Block 3\nIN: { d1 d2 }\n----------------\na == 0\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    gcd_Node3 -> gcd_Node2;
+    gcd_Node3 -> gcd_Node1;
+    gcd_Node4 [label="Block 4\nIN: { }\n----------------\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    gcd_Node4 -> gcd_Node3;
+  }
+  subgraph cluster_DisjointSet {
+    label = "DisjointSet()";
+    style=filled; color=lightgrey;
+    DisjointSet_Node0 [label="Block 0\nIN: { d1 d2 }\n----------------\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    DisjointSet_Node1 [label="Block 1\nIN: { d1 d2 }\n----------------\ni++\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    DisjointSet_Node1 -> DisjointSet_Node3;
+    DisjointSet_Node2 [label="Block 2\nIN: { d1 d2 }\n----------------\nthis->parent[i]\nthis->parent[i] = i\nthis->size[i]\nthis->size[i] = 1\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    DisjointSet_Node2 -> DisjointSet_Node1;
+    DisjointSet_Node3 [label="Block 3\nIN: { d1 d2 }\n----------------\ni <= n\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    DisjointSet_Node3 -> DisjointSet_Node2;
+    DisjointSet_Node3 -> DisjointSet_Node0;
+    DisjointSet_Node4 [label="Block 4\nIN: { d1 }\n----------------\nthis->rank.resize(n + 1, 0)\nthis->parent.resize(n + 1)\nthis->size.resize(n + 1)\nlong long i = 0;\n [Folded: 0]\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    DisjointSet_Node4 -> DisjointSet_Node3;
+    DisjointSet_Node5 [label="Block 5\nIN: { }\n----------------\n----------------\nOUT: { d1 }", style=filled, fillcolor=white];
+    DisjointSet_Node5 -> DisjointSet_Node4;
+  }
+  subgraph cluster_findUPar {
+    label = "findUPar()";
+    style=filled; color=lightgrey;
+    findUPar_Node0 [label="Block 0\nIN: { d1 }\n----------------\n----------------\nOUT: { d1 }", style=filled, fillcolor=white];
+    findUPar_Node1 [label="Block 1\nIN: { d1 }\n----------------\nthis->parent[node]\nthis->findUPar(this->parent[node])\nthis->parent[node]\nthis->parent[node] = this->findUPar(this->parent[node])\nreturn this->parent[node] = this->findUPar(this->parent[node]);\n\n----------------\nOUT: { d1 }", style=filled, fillcolor=white];
+    findUPar_Node1 -> findUPar_Node0;
+    findUPar_Node2 [label="Block 2\nIN: { d1 }\n----------------\nnode\nreturn node;\n\n----------------\nOUT: { d1 }", style=filled, fillcolor=white];
+    findUPar_Node2 -> findUPar_Node0;
+    findUPar_Node3 [label="Block 3\nIN: { d1 }\n----------------\nthis->parent[node]\nnode == this->parent[node]\n----------------\nOUT: { d1 }", style=filled, fillcolor=white];
+    findUPar_Node3 -> findUPar_Node2;
+    findUPar_Node3 -> findUPar_Node1;
+    findUPar_Node4 [label="Block 4\nIN: { }\n----------------\n----------------\nOUT: { d1 }", style=filled, fillcolor=white];
+    findUPar_Node4 -> findUPar_Node3;
+  }
+  subgraph cluster_unionByRank {
+    label = "unionByRank()";
+    style=filled; color=lightgrey;
+    unionByRank_Node0 [label="Block 0\nIN: { d1 d2 d3 d4 }\n----------------\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionByRank_Node1 [label="Block 1\nIN: { d1 d2 d3 d4 }\n----------------\nthis->parent[ulp_v]\nthis->parent[ulp_v] = ulp_u\nthis->rank[ulp_u]\nthis->rank[ulp_u]++\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionByRank_Node1 -> unionByRank_Node0;
+    unionByRank_Node2 [label="Block 2\nIN: { d1 d2 d3 d4 }\n----------------\nthis->parent[ulp_v]\nthis->parent[ulp_v] = ulp_u\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionByRank_Node2 -> unionByRank_Node0;
+    unionByRank_Node3 [label="Block 3\nIN: { d1 d2 d3 d4 }\n----------------\nthis->rank[ulp_v]\nthis->rank[ulp_u]\nthis->rank[ulp_v] < this->rank[ulp_u]\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionByRank_Node3 -> unionByRank_Node2;
+    unionByRank_Node3 -> unionByRank_Node1;
+    unionByRank_Node4 [label="Block 4\nIN: { d1 d2 d3 d4 }\n----------------\nthis->parent[ulp_u]\nthis->parent[ulp_u] = ulp_v\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionByRank_Node4 -> unionByRank_Node0;
+    unionByRank_Node5 [label="Block 5\nIN: { d1 d2 d3 d4 }\n----------------\nthis->rank[ulp_u]\nthis->rank[ulp_v]\nthis->rank[ulp_u] < this->rank[ulp_v]\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionByRank_Node5 -> unionByRank_Node4;
+    unionByRank_Node5 -> unionByRank_Node3;
+    unionByRank_Node6 [label="Block 6\nIN: { d1 d2 d3 d4 }\n----------------\nreturn;\n\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionByRank_Node6 -> unionByRank_Node0;
+    unionByRank_Node7 [label="Block 7\nIN: { d1 d2 }\n----------------\nthis->findUPar(u)\nlong long ulp_u = this->findUPar(u);\n\nthis->findUPar(v)\nlong long ulp_v = this->findUPar(v);\n\nulp_u == ulp_v\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionByRank_Node7 -> unionByRank_Node6;
+    unionByRank_Node7 -> unionByRank_Node5;
+    unionByRank_Node8 [label="Block 8\nIN: { }\n----------------\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    unionByRank_Node8 -> unionByRank_Node7;
+  }
+  subgraph cluster_unionBySize {
+    label = "unionBySize()";
+    style=filled; color=lightgrey;
+    unionBySize_Node0 [label="Block 0\nIN: { d1 d2 d3 d4 }\n----------------\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionBySize_Node1 [label="Block 1\nIN: { d1 d2 d3 d4 }\n----------------\nthis->parent[ulp_v]\nthis->parent[ulp_v] = ulp_u\nthis->size[ulp_u]\nthis->size[ulp_v]\nthis->size[ulp_u] += this->size[ulp_v]\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionBySize_Node1 -> unionBySize_Node0;
+    unionBySize_Node2 [label="Block 2\nIN: { d1 d2 d3 d4 }\n----------------\nthis->parent[ulp_u]\nthis->parent[ulp_u] = ulp_v\nthis->size[ulp_v]\nthis->size[ulp_u]\nthis->size[ulp_v] += this->size[ulp_u]\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionBySize_Node2 -> unionBySize_Node0;
+    unionBySize_Node3 [label="Block 3\nIN: { d1 d2 d3 d4 }\n----------------\nthis->size[ulp_u]\nthis->size[ulp_v]\nthis->size[ulp_u] < this->size[ulp_v]\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionBySize_Node3 -> unionBySize_Node2;
+    unionBySize_Node3 -> unionBySize_Node1;
+    unionBySize_Node4 [label="Block 4\nIN: { d1 d2 d3 d4 }\n----------------\nreturn;\n\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionBySize_Node4 -> unionBySize_Node0;
+    unionBySize_Node5 [label="Block 5\nIN: { d1 d2 }\n----------------\nthis->findUPar(u)\nlong long ulp_u = this->findUPar(u);\n\nthis->findUPar(v)\nlong long ulp_v = this->findUPar(v);\n\nulp_u == ulp_v\n----------------\nOUT: { d1 d2 d3 d4 }", style=filled, fillcolor=white];
+    unionBySize_Node5 -> unionBySize_Node4;
+    unionBySize_Node5 -> unionBySize_Node3;
+    unionBySize_Node6 [label="Block 6\nIN: { }\n----------------\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    unionBySize_Node6 -> unionBySize_Node5;
+  }
+  subgraph cluster_isset {
+    label = "isset()";
+    style=filled; color=lightgrey;
+    isset_Node0 [label="Block 0\nIN: { d1 d2 }\n----------------\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    isset_Node1 [label="Block 1\nIN: { d1 d2 }\n----------------\nfalse [Folded: 0]\nreturn false;\n\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    isset_Node1 -> isset_Node0;
+    isset_Node2 [label="Block 2\nIN: { d1 d2 }\n----------------\ntrue [Folded: 1]\nreturn true;\n\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    isset_Node2 -> isset_Node0;
+    isset_Node3 [label="Block 3\nIN: { d1 d2 }\n----------------\nl & (1 << i)\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    isset_Node3 -> isset_Node2;
+    isset_Node3 -> isset_Node1;
+    isset_Node4 [label="Block 4\nIN: { }\n----------------\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    isset_Node4 -> isset_Node3;
+  }
+  subgraph cluster_sums {
+    label = "sums()";
+    style=filled; color=lightgrey;
+    sums_Node0 [label="Block 0\nIN: { d1 d2 d3 d4 d5 d6 d7 }\n----------------\n----------------\nOUT: { d1 d2 d3 d4 d5 d6 d7 }", style=filled, fillcolor=white];
+    sums_Node1 [label="Block 1\nIN: { d1 d2 d3 d4 d5 d6 d7 }\n----------------\nsum\nreturn sum;\n\n----------------\nOUT: { d1 d2 d3 d4 d5 d6 d7 }", style=filled, fillcolor=white];
+    sums_Node1 -> sums_Node0;
+    sums_Node2 [label="Block 2\nIN: { d1 d2 d3 d4 d5 d6 d7 }\n----------------\n__begin1 != __end1\n----------------\nOUT: { d1 d2 d3 d4 d5 d6 d7 }", style=filled, fillcolor=white];
+    sums_Node2 -> sums_Node4;
+    sums_Node2 -> sums_Node1;
+    sums_Node3 [label="Block 3\nIN: { d1 d2 d3 d5 d6 d7 }\n----------------\n++ __begin1\n----------------\nOUT: { d1 d2 d3 d5 d6 d7 }", style=filled, fillcolor=white];
+    sums_Node3 -> sums_Node2;
+    sums_Node4 [label="Block 4\nIN: { d1 d2 d3 d4 d5 d6 d7 }\n----------------\n* __begin1\nauto it;\n\nsum += it\n----------------\nOUT: { d1 d2 d3 d5 d6 d7 }", style=filled, fillcolor=white];
+    sums_Node4 -> sums_Node3;
+    sums_Node5 [label="Block 5\nIN: { d1 }\n----------------\nlong long sum = 0;\n [Folded: 0]\nauto &&__range1 = a;\n\n__range1.end()\nauto __end1 = __range1.end();\n\n__range1.begin()\nauto __begin1 = __range1.begin();\n\n----------------\nOUT: { d1 d4 d5 d6 d7 }", style=filled, fillcolor=white];
+    sums_Node5 -> sums_Node2;
+    sums_Node6 [label="Block 6\nIN: { }\n----------------\n----------------\nOUT: { d1 }", style=filled, fillcolor=white];
+    sums_Node6 -> sums_Node5;
+  }
+  subgraph cluster_solution {
+    label = "solution()";
+    style=filled; color=lightgrey;
+    solution_Node0 [label="Block 0\nIN: { d1 d2 d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 }\n----------------\n----------------\nOUT: { d1 d2 d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 }", style=filled, fillcolor=white];
+    solution_Node1 [label="Block 1\nIN: { d1 d2 d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 }\n----------------\ncout << ftime\ncout << ftime << \"\n\"\n----------------\nOUT: { d1 d2 d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 }", style=filled, fillcolor=white];
+    solution_Node1 -> solution_Node0;
+    solution_Node2 [label="Block 2\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\nl - timeremain > 0 ? l - timeremain : 0\nftime = (l - timeremain > 0 ? l - timeremain : 0)\n----------------\nOUT: { d1 d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 }", style=filled, fillcolor=white];
+    solution_Node2 -> solution_Node1;
+    solution_Node3 [label="Block 3\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\nl - timeremain\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution_Node3 -> solution_Node2;
+    solution_Node4 [label="Block 4\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\n0 [Folded: 0]\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution_Node4 -> solution_Node2;
+    solution_Node5 [label="Block 5\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\nl - timeremain > 0\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution_Node5 -> solution_Node3;
+    solution_Node5 -> solution_Node4;
+    solution_Node6 [label="Block 6\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\nr - timeremain > 0 ? r - timeremain : 0\nftime = (r - timeremain > 0 ? r - timeremain : 0)\n----------------\nOUT: { d2 d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 }", style=filled, fillcolor=white];
+    solution_Node6 -> solution_Node1;
+    solution_Node7 [label="Block 7\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\nr - timeremain\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution_Node7 -> solution_Node6;
+    solution_Node8 [label="Block 8\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\n0 [Folded: 0]\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution_Node8 -> solution_Node6;
+    solution_Node9 [label="Block 9\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\nr - timeremain > 0\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution_Node9 -> solution_Node7;
+    solution_Node9 -> solution_Node8;
+    solution_Node10 [label="Block 10\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\ninv\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution_Node10 -> solution_Node9;
+    solution_Node10 -> solution_Node5;
+    solution_Node11 [label="Block 11\n!!! POTENTIAL UNINIT BUG !!!\nIN: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\ns - k > 0 ? s - k : 0\nl = (s - k > 0 ? s - k : 0)\nr = s - l\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d12 d13 }", style=filled, fillcolor=red];
+    solution_Node11 -> solution_Node10;
+    solution_Node12 [label="Block 12\n!!! POTENTIAL UNINIT BUG !!!\nIN: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\ns - k\n----------------\nOUT: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=red];
+    solution_Node12 -> solution_Node11;
+    solution_Node13 [label="Block 13\nIN: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\n0 [Folded: 0]\n----------------\nOUT: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution_Node13 -> solution_Node11;
+    solution_Node14 [label="Block 14\n!!! POTENTIAL UNINIT BUG !!!\nIN: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\ns - k > 0\n----------------\nOUT: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=red];
+    solution_Node14 -> solution_Node12;
+    solution_Node14 -> solution_Node13;
+    solution_Node15 [label="Block 15\n!!! POTENTIAL UNINIT BUG !!!\nIN: { }\n----------------\nlong long s;\n\nlong long k;\n\nlong long m;\n\ncin >> s\ncin >> s >> k\ncin >> s >> k >> m\nlong long numberflip = m / k;\n\nlong long timeremain = m % k;\n\nlong long l = s;\n\nlong long r = 0;\n [Folded: 0]\nbool inv = (numberflip & 1);\n\nlong long ftime = 0;\n [Folded: 0]\ninv\n----------------\nOUT: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=red];
+    solution_Node15 -> solution_Node14;
+    solution_Node15 -> solution_Node10;
+    solution_Node16 [label="Block 16\nIN: { }\n----------------\n----------------\nOUT: { }", style=filled, fillcolor=white];
+    solution_Node16 -> solution_Node15;
+  }
+  subgraph cluster_rev {
+    label = "rev()";
+    style=filled; color=lightgrey;
+    rev_Node0 [label="Block 0\nIN: { d1 d2 d4 d5 d6 }\n----------------\n----------------\nOUT: { d1 d2 d4 d5 d6 }", style=filled, fillcolor=white];
+    rev_Node1 [label="Block 1\nIN: { d1 d2 d4 d5 d6 }\n----------------\nlen\nreturn len;\n\n----------------\nOUT: { d1 d2 d4 d5 d6 }", style=filled, fillcolor=white];
+    rev_Node1 -> rev_Node0;
+    rev_Node2 [label="Block 2\nIN: { d1 d2 d4 d5 d6 }\n----------------\ni++\n----------------\nOUT: { d1 d2 d4 d5 d6 }", style=filled, fillcolor=white];
+    rev_Node2 -> rev_Node4;
+    rev_Node3 [label="Block 3\nIN: { d1 d2 d4 d5 d6 }\n----------------\nputchar(string[k - i - 1])\n----------------\nOUT: { d1 d2 d4 d5 d6 }", style=filled, fillcolor=white];
+    rev_Node3 -> rev_Node2;
+    rev_Node4 [label="Block 4\nIN: { d1 d2 d4 d5 d6 }\n----------------\ni < k\n----------------\nOUT: { d1 d2 d4 d5 d6 }", style=filled, fillcolor=white];
+    rev_Node4 -> rev_Node3;
+    rev_Node4 -> rev_Node1;
+    rev_Node5 [label="Block 5\nIN: { d1 d2 }\n----------------\nlong long k;\n\nlong long j;\n\nk = len\nlong long i = 0;\n [Folded: 0]\n----------------\nOUT: { d1 d2 d4 d5 d6 }", style=filled, fillcolor=white];
+    rev_Node5 -> rev_Node4;
+    rev_Node6 [label="Block 6\nIN: { }\n----------------\n----------------\nOUT: { d1 d2 }", style=filled, fillcolor=white];
+    rev_Node6 -> rev_Node5;
+  }
+  subgraph cluster_main {
+    label = "main()";
+    style=filled; color=lightgrey;
+    main_Node0 [label="Block 0\nIN: { d1 d2 d3 d4 d5 d6 }\n----------------\n----------------\nOUT: { d1 d2 d3 d4 d5 d6 }", style=filled, fillcolor=white];
+    main_Node1 [label="Block 1\n!!! POTENTIAL UNINIT BUG !!!\nIN: { d1 d2 d3 d4 d5 d6 }\n----------------\nrev(nw, l)\nreturn rev(nw, l);\n\n----------------\nOUT: { d1 d2 d3 d4 d5 d6 }", style=filled, fillcolor=red];
+    main_Node1 -> main_Node0;
+    main_Node2 [label="Block 2\nIN: { d1 d2 d3 d4 d5 d6 }\n----------------\ni++\n----------------\nOUT: { d1 d2 d3 d4 d5 d6 }", style=filled, fillcolor=white];
+    main_Node2 -> main_Node4;
+    main_Node3 [label="Block 3\n!!! POTENTIAL UNINIT BUG !!!\nIN: { d1 d2 d3 d4 d5 d6 }\n----------------\nnw[i] = (j + (nm[k - 1 - i] - '0'))\nj++\nk++\nputchar(nw[i])\n----------------\nOUT: { d1 d2 d3 d4 d5 d6 }", style=filled, fillcolor=red];
+    main_Node3 -> main_Node2;
+    main_Node4 [label="Block 4\nIN: { d1 d2 d3 d4 d5 d6 }\n----------------\ni < l\n----------------\nOUT: { d1 d2 d3 d4 d5 d6 }", style=filled, fillcolor=white];
+    main_Node4 -> main_Node3;
+    main_Node4 -> main_Node1;
+    main_Node5 [label="Block 5\n!!! POTENTIAL UNINIT BUG !!!\nIN: { }\n----------------\nchar nm[100];\n\nchar nw[100];\n\nlong long j = 0;\n [Folded: 0]\nprintf(\"Enter the number: \")\nfgets(nm, 100, stdin)\nstrlen(nm)\nlong long l = strlen(nm);\n\nlong long k = l;\n\nlong long i = 0;\n [Folded: 0]\n----------------\nOUT: { d1 d2 d3 d4 d5 d6 }", style=filled, fillcolor=red];
+    main_Node5 -> main_Node4;
+    main_Node6 [label="Block 6\nIN: { }\n----------------\n----------------\nOUT: { }", style=filled, fillcolor=white];
+    main_Node6 -> main_Node5;
+  }
+  subgraph cluster_solution2 {
+    label = "solution2()";
+    style=filled; color=lightgrey;
+    solution2_Node0 [label="Block 0\nIN: { d1 d2 d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 }\n----------------\n----------------\nOUT: { d1 d2 d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 }", style=filled, fillcolor=white];
+    solution2_Node1 [label="Block 1\nIN: { d1 d2 d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 }\n----------------\ncout << ftime\ncout << ftime << \"\n\"\n----------------\nOUT: { d1 d2 d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 }", style=filled, fillcolor=white];
+    solution2_Node1 -> solution2_Node0;
+    solution2_Node2 [label="Block 2\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\nl - timeremain > 0 ? l - timeremain : 0\nftime = (l - timeremain > 0 ? l - timeremain : 0)\n----------------\nOUT: { d1 d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 }", style=filled, fillcolor=white];
+    solution2_Node2 -> solution2_Node1;
+    solution2_Node3 [label="Block 3\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\nl - timeremain\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution2_Node3 -> solution2_Node2;
+    solution2_Node4 [label="Block 4\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\n0 [Folded: 0]\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution2_Node4 -> solution2_Node2;
+    solution2_Node5 [label="Block 5\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\nl - timeremain > 0\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution2_Node5 -> solution2_Node3;
+    solution2_Node5 -> solution2_Node4;
+    solution2_Node6 [label="Block 6\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\nr - timeremain > 0 ? r - timeremain : 0\nftime = (r - timeremain > 0 ? r - timeremain : 0)\n----------------\nOUT: { d2 d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 }", style=filled, fillcolor=white];
+    solution2_Node6 -> solution2_Node1;
+    solution2_Node7 [label="Block 7\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\nr - timeremain\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution2_Node7 -> solution2_Node6;
+    solution2_Node8 [label="Block 8\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\n0 [Folded: 0]\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution2_Node8 -> solution2_Node6;
+    solution2_Node9 [label="Block 9\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\nr - timeremain > 0\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution2_Node9 -> solution2_Node7;
+    solution2_Node9 -> solution2_Node8;
+    solution2_Node10 [label="Block 10\nIN: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\ninv\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution2_Node10 -> solution2_Node9;
+    solution2_Node10 -> solution2_Node5;
+    solution2_Node11 [label="Block 11\n!!! POTENTIAL UNINIT BUG !!!\nIN: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\ns - k > 0 ? s - k : 0\nl = (s - k > 0 ? s - k : 0)\nr = s - l\n----------------\nOUT: { d3 d4 d5 d6 d7 d8 d9 d12 d13 }", style=filled, fillcolor=red];
+    solution2_Node11 -> solution2_Node10;
+    solution2_Node12 [label="Block 12\n!!! POTENTIAL UNINIT BUG !!!\nIN: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\ns - k\n----------------\nOUT: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=red];
+    solution2_Node12 -> solution2_Node11;
+    solution2_Node13 [label="Block 13\nIN: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\n0 [Folded: 0]\n----------------\nOUT: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=white];
+    solution2_Node13 -> solution2_Node11;
+    solution2_Node14 [label="Block 14\n!!! POTENTIAL UNINIT BUG !!!\nIN: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }\n----------------\ns - k > 0\n----------------\nOUT: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=red];
+    solution2_Node14 -> solution2_Node12;
+    solution2_Node14 -> solution2_Node13;
+    solution2_Node15 [label="Block 15\n!!! POTENTIAL UNINIT BUG !!!\nIN: { }\n----------------\nlong long s;\n\nlong long k;\n\nlong long m;\n\ncin >> s\ncin >> s >> k\ncin >> s >> k >> m\nlong long numberflip = m / k;\n\nlong long timeremain = m % k;\n\nlong long l = s;\n\nlong long r = 0;\n [Folded: 0]\nbool inv = (numberflip & 1);\n\nlong long ftime = 0;\n [Folded: 0]\ninv\n----------------\nOUT: { d5 d6 d7 d8 d9 d10 d11 d12 d13 }", style=filled, fillcolor=red];
+    solution2_Node15 -> solution2_Node14;
+    solution2_Node15 -> solution2_Node10;
+    solution2_Node16 [label="Block 16\nIN: { }\n----------------\n----------------\nOUT: { }", style=filled, fillcolor=white];
+    solution2_Node16 -> solution2_Node15;
+  }
+  subgraph cluster_main2 {
+    label = "main2()";
+    style=filled; color=lightgrey;
+    main2_Node0 [label="Block 0\nIN: { d1 d2 d3 }\n----------------\n----------------\nOUT: { d1 d2 d3 }", style=filled, fillcolor=white];
+    main2_Node1 [label="Block 1\nIN: { d2 d3 }\n----------------\nlong long jkl;\n\n----------------\nOUT: { d1 d2 d3 }", style=filled, fillcolor=white];
+    main2_Node1 -> main2_Node0;
+    main2_Node2 [label="Block 2\nIN: { d2 d3 }\n----------------\n----------------\nOUT: { d2 d3 }", style=filled, fillcolor=white];
+    main2_Node2 -> main2_Node4;
+    main2_Node3 [label="Block 3\nIN: { d2 d3 }\n----------------\nsolution2()\n----------------\nOUT: { d2 d3 }", style=filled, fillcolor=white];
+    main2_Node3 -> main2_Node2;
+    main2_Node4 [label="Block 4\nIN: { d2 d3 }\n----------------\nt--\n----------------\nOUT: { d2 d3 }", style=filled, fillcolor=white];
+    main2_Node4 -> main2_Node3;
+    main2_Node4 -> main2_Node1;
+    main2_Node5 [label="Block 5\nIN: { }\n----------------\nios_base::sync_with_stdio(false)\ncin.tie(nullptr)\ncout.tie(nullptr)\nfreopen(\"error.txt\", \"error\", stderr)\nlong long al;\n\nlong long t = 1;\n [Folded: 1]\ncin >> t\n----------------\nOUT: { d2 d3 }", style=filled, fillcolor=white];
+    main2_Node5 -> main2_Node4;
+    main2_Node6 [label="Block 6\nIN: { }\n----------------\n----------------\nOUT: { }", style=filled, fillcolor=white];
+    main2_Node6 -> main2_Node5;
+  }
+}
