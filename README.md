@@ -1,64 +1,152 @@
-CFG Visualiser
+# CFG Visualiser
 
-This repository contains a small Clang-based command-line tool that parses C/C++ source files and performs static optimisation of the give C/C++ code. it emits a Graphviz DOT representation of each function's control-flow graph.
+A **Clang-based Control Flow Graph (CFG) Visualiser** for C/C++ programs. This tool parses C/C++ source code, performs static analysis, constructs an **Abstract Syntax Tree (AST)** and **Control Flow Graph (CFG)** for each function, and generates a **Graphviz DOT** representation for visualization.
 
-The main executable is built from ast.cpp, and CMake defines the target name as ast-tool.
-What It Does
+The project is built using **Clang's LibTooling**, **AST**, and **CFG APIs**, making it a useful utility for understanding program control flow, compiler internals, and static code analysis.
 
-The tool:
+---
 
-    uses Clang's AST and CFG APIs
-    visits each function definition in the main input file
-    builds a control-flow graph for the function body
-    prints a digraph CFG { ... } description to standard output
+## Features
 
-The output can be redirected into a .dot file and rendered with Graphviz.
-Repository Layout
+* Parses C and C++ source files using Clang.
+* Traverses the Abstract Syntax Tree (AST).
+* Builds a Control Flow Graph (CFG) for every function definition.
+* Exports CFGs in **Graphviz DOT** format.
+* Generates easy-to-read graphical representations of program execution paths.
+* Supports visualization of multiple functions within a source file.
 
-    CMakeLists.txt: CMake configuration for the ast-tool executable
-    ast.cpp: main Clang tool implementation
-    test.cpp: standalone scratch/example source file, not currently part of the CMake target
-    build/: local build directory and generated artifacts
+---
 
-Requirements
+## Repository Structure
 
-You need a C++17 compiler and a Clang/LLVM development environment with CMake support.
+```
+.
+├── CMakeLists.txt      # Build configuration
+├── ast.cpp             # Main Clang tool implementation
+├── test.cpp            # Example input source file
+├── build/              # Generated build files and output (not tracked)
+└── README.md
+```
 
-On Linux, the tool typically requires:
+---
 
-    CMake 3.10 or newer
-    LLVM and Clang development packages
-    a working compiler such as g++ or clang++
-    Graphviz if you want to render the generated DOT output
+## Requirements
 
-Build
+To build the project, you will need:
 
-From the repository root:
+* C++17 compatible compiler (`g++` or `clang++`)
+* CMake 3.10 or later
+* LLVM and Clang development libraries
+* Graphviz (for rendering DOT files)
 
+---
+
+## Building the Project
+
+Clone the repository and build the project using CMake:
+
+```bash
 cmake -S . -B build
 cmake --build build
+```
 
-This produces the ast-tool executable inside build/.
-Run
+This generates the executable:
 
-Pass one or more source files through the Clang tool. A typical workflow is:
+```
+build/ast-tool
+```
 
+---
+
+## Usage
+
+Run the tool on a C/C++ source file and redirect the output to a DOT file:
+
+```bash
 cd build
 ./ast-tool ../test.cpp > program_cfg.dot
+```
+
+Generate a visual graph using Graphviz:
+
+```bash
 dot -Tpng program_cfg.dot -o graph.png
+```
 
-The repository already includes those example outputs in build/:
+You can then open `graph.png` to view the generated Control Flow Graph.
 
-    program_cfg.dot
-    graph.png
+---
 
-Output Format
+## Output
 
-The generated DOT output groups each function into a separate subgraph and labels basic blocks with the statements they contain. The result is intended for Graphviz visualization.
-Notes
+The generated DOT file contains a separate subgraph for each function in the input source. Each node represents a **basic block** and is labeled with the statements contained within that block. The output is fully compatible with Graphviz for rendering.
 
-`
+Example workflow:
 
-    The current CMake target only builds ast.cpp.
-    The test.cpp file looks like an unrelated scratch program and is not compiled by default.
-    The repository already contains a local build/ directory; it is safe to regenerate it with CMake if needed.
+```
+C/C++ Source
+      │
+      ▼
+ Clang Parser
+      │
+      ▼
+ AST Construction
+      │
+      ▼
+ CFG Generation
+      │
+      ▼
+ Graphviz DOT File
+      │
+      ▼
+   PNG/SVG/PDF Graph
+```
+
+---
+
+## Project Overview
+
+The tool performs the following steps:
+
+1. Parses the input source file using Clang.
+2. Visits every function definition in the main source file.
+3. Constructs a Control Flow Graph for each function.
+4. Traverses CFG basic blocks.
+5. Emits a Graphviz DOT representation to standard output.
+
+---
+
+## Notes
+
+* Only `ast.cpp` is compiled into the executable.
+* `test.cpp` is provided as an example input and is not part of the build target.
+* The `build/` directory is generated automatically and can be safely recreated at any time.
+
+---
+
+## Technologies Used
+
+* C++
+* Clang LibTooling
+* LLVM
+* CMake
+* Graphviz
+
+---
+
+## Future Improvements
+
+* Interactive CFG visualization.
+* Support for interprocedural control flow.
+* AST visualization.
+* Data Flow Analysis.
+* Dominator Tree generation.
+* Loop detection and visualization.
+* Export to SVG and PDF.
+* GUI/Web-based visualizer.
+
+---
+
+## About
+
+**CFG Visualiser** is a static analysis tool that leverages **Clang's compiler infrastructure** to construct Abstract Syntax Trees (ASTs) and visualize Control Flow Graphs (CFGs) for C/C++ programs. It is intended as an educational and research-oriented project for understanding compiler design, program analysis, and control flow visualization.
