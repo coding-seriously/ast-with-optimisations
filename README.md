@@ -134,19 +134,6 @@ The tool performs the following steps:
 
 ---
 
-## Future Improvements
-
-* Interactive CFG visualization.
-* Support for interprocedural control flow.
-* AST visualization.
-* Data Flow Analysis.
-* Dominator Tree generation.
-* Loop detection and visualization.
-* Export to SVG and PDF.
-* GUI/Web-based visualizer.
-
----
-
 ## About
 
 **CFG Visualiser** is a static analysis tool that leverages **Clang's compiler infrastructure** to construct Abstract Syntax Trees (ASTs) and visualize Control Flow Graphs (CFGs) for C/C++ programs. It is intended as an educational and research-oriented project for understanding compiler design, program analysis, and control flow visualization.
