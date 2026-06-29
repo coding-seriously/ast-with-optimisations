@@ -1,6 +1,6 @@
 CFG Visualiser
 
-This repository contains a small Clang-based command-line tool that parses C/C++ source files and emits a Graphviz DOT representation of each function's control-flow graph.
+This repository contains a small Clang-based command-line tool that parses C/C++ source files and performs static optimisation of the give C/C++ code. it emits a Graphviz DOT representation of each function's control-flow graph.
 
 The main executable is built from ast.cpp, and CMake defines the target name as ast-tool.
 What It Does
